@@ -1,0 +1,54 @@
+<h1>Listing Rushing statistics</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Player name</th>
+      <th>Team</th>
+      <th>Player position</th>
+      <th>Attempts per game</th>
+      <th>Attempts</th>
+      <th>Total yards</th>
+      <th>Average yards</th>
+      <th>Yards per game</th>
+      <th>Touchdowns</th>
+      <th>Longest rush</th>
+      <th>First downs</th>
+      <th>First downs pct</th>
+      <th>Twenty yards plus</th>
+      <th>Fourty yards plus</th>
+      <th>Fumbles</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for rushing_statistic <- @rushing_statistics do %>
+    <tr>
+      <td><%= rushing_statistic.player_name %></td>
+      <td><%= rushing_statistic.team %></td>
+      <td><%= rushing_statistic.player_position %></td>
+      <td><%= rushing_statistic.attempts_per_game %></td>
+      <td><%= rushing_statistic.attempts %></td>
+      <td><%= rushing_statistic.total_yards %></td>
+      <td><%= rushing_statistic.average_yards %></td>
+      <td><%= rushing_statistic.yards_per_game %></td>
+      <td><%= rushing_statistic.touchdowns %></td>
+      <td><%= rushing_statistic.longest_rush %></td>
+      <td><%= rushing_statistic.first_downs %></td>
+      <td><%= rushing_statistic.first_downs_pct %></td>
+      <td><%= rushing_statistic.twenty_yards_plus %></td>
+      <td><%= rushing_statistic.fourty_yards_plus %></td>
+      <td><%= rushing_statistic.fumbles %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.rushing_statistic_path(@conn, :show, rushing_statistic) %></span>
+        <span><%= link "Edit", to: Routes.rushing_statistic_path(@conn, :edit, rushing_statistic) %></span>
+        <span><%= link "Delete", to: Routes.rushing_statistic_path(@conn, :delete, rushing_statistic), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Rushing statistic", to: Routes.rushing_statistic_path(@conn, :new) %></span>

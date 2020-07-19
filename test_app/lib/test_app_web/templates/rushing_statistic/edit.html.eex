@@ -1,0 +1,5 @@
+<h1>Edit Rushing statistic</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.rushing_statistic_path(@conn, :update, @rushing_statistic)) %>
+
+<span><%= link "Back", to: Routes.rushing_statistic_path(@conn, :index) %></span>

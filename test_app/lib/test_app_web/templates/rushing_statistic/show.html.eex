@@ -1,0 +1,83 @@
+<h1>Show Rushing statistic</h1>
+
+<ul>
+
+  <li>
+    <strong>Player name:</strong>
+    <%= @rushing_statistic.player_name %>
+  </li>
+
+  <li>
+    <strong>Team:</strong>
+    <%= @rushing_statistic.team %>
+  </li>
+
+  <li>
+    <strong>Player position:</strong>
+    <%= @rushing_statistic.player_position %>
+  </li>
+
+  <li>
+    <strong>Attempts per game:</strong>
+    <%= @rushing_statistic.attempts_per_game %>
+  </li>
+
+  <li>
+    <strong>Attempts:</strong>
+    <%= @rushing_statistic.attempts %>
+  </li>
+
+  <li>
+    <strong>Total yards:</strong>
+    <%= @rushing_statistic.total_yards %>
+  </li>
+
+  <li>
+    <strong>Average yards:</strong>
+    <%= @rushing_statistic.average_yards %>
+  </li>
+
+  <li>
+    <strong>Yards per game:</strong>
+    <%= @rushing_statistic.yards_per_game %>
+  </li>
+
+  <li>
+    <strong>Touchdowns:</strong>
+    <%= @rushing_statistic.touchdowns %>
+  </li>
+
+  <li>
+    <strong>Longest rush:</strong>
+    <%= @rushing_statistic.longest_rush %>
+  </li>
+
+  <li>
+    <strong>First downs:</strong>
+    <%= @rushing_statistic.first_downs %>
+  </li>
+
+  <li>
+    <strong>First downs pct:</strong>
+    <%= @rushing_statistic.first_downs_pct %>
+  </li>
+
+  <li>
+    <strong>Twenty yards plus:</strong>
+    <%= @rushing_statistic.twenty_yards_plus %>
+  </li>
+
+  <li>
+    <strong>Fourty yards plus:</strong>
+    <%= @rushing_statistic.fourty_yards_plus %>
+  </li>
+
+  <li>
+    <strong>Fumbles:</strong>
+    <%= @rushing_statistic.fumbles %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.rushing_statistic_path(@conn, :edit, @rushing_statistic) %></span>
+<span><%= link "Back", to: Routes.rushing_statistic_path(@conn, :index) %></span>
