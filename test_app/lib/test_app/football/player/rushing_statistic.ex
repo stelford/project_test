@@ -47,24 +47,24 @@ defmodule TestApp.Football.Player.RushingStatistic do
   be conservative in what you do, be liberal in what you accept from others
 
   ```
-  iex> TestApp.Football.Player.RushingStatistic.load_json(%{file: "rushing.json"})
-  %{
-    "1st" => 0,
-    "1st%" => 0,
-    "20+" => 0,
-    "40+" => 0,
-    "Att" => 2,
-    "Att/G" => 2,
-    "Avg" => 3.5,
-    "FUM" => 0,
-    "Lng" => "7",
-    "Player" => "Joe Banyard",
-    "Pos" => "RB",
-    "TD" => 0,
-    "Team" => "JAX",
-    "Yds" => 7,
-    "Yds/G" => 7
-  }
+    iex> TestApp.Football.Player.RushingStatistic.load_json(%{file: "rushing.json"})
+    %{
+      "1st" => 0,
+      "1st%" => 0,
+      "20+" => 0,
+      "40+" => 0,
+      "Att" => 2,
+      "Att/G" => 2,
+      "Avg" => 3.5,
+      "FUM" => 0,
+      "Lng" => "7",
+      "Player" => "Joe Banyard",
+      "Pos" => "RB",
+      "TD" => 0,
+      "Team" => "JAX",
+      "Yds" => 7,
+      "Yds/G" => 7
+    }
   ```
   """
   def load_json(%{file: file}) do
@@ -72,8 +72,16 @@ defmodule TestApp.Football.Player.RushingStatistic do
     |> File.stream!() 
     |> Jaxon.Stream.from_enumerable() 
     |> Jaxon.Stream.query([:root, "stats", :all]) 
-    |> Enum.to_list 
-    |> List.first()
+    |> Enum.each(fn x -> insert_into_ecto(x) end)
+  end
+
+  @doc """
+    Here we should DEFINITELY log errors into a SQL table instead of jst nothing ??
+  """
+  def insert_into_ecto(enum_item) do
+    enum_item
+    |> map_to_ecto_keys()
+    |> TestApp.Football.Player.create_rushing_statistic()
   end
 
   def map_to_ecto_keys(incoming_map) do
