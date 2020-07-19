@@ -4,7 +4,7 @@ ENV DEPS="curl git make g++"
 
 RUN apt-get update -y && \
     apt-get install -y $DEPS && \
-    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    curl -sL https://deb.nodesource.com/setup_13.x | bash - && \
     apt-get install -y inotify-tools nodejs
 
 WORKDIR /code
