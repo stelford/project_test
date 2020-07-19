@@ -10,6 +10,15 @@ import {Socket} from "phoenix"
 
 let socket = new Socket("/socket", {params: {token: window.userToken}})
 
+import LiveSocket from "phoenix_live_view"
+
+let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
+let liveSocket = new LiveSocket("/mylive", Socket, {params: {_csrf_token: csrfToken}})
+
+// Connect if there are any LiveViews on the page
+liveSocket.connect()
+window.liveSocket = liveSocket
+
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,
 // which authenticates the session and assigns a `:current_user`.
