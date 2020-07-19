@@ -17,6 +17,7 @@ defmodule TestAppWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/rushing_statistic", RushingStatisticController
   end
 
   # Other scopes may use custom stacks.

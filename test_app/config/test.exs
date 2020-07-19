@@ -9,7 +9,7 @@ config :test_app, TestApp.Repo,
   username: "postgres",
   password: "postgres",
   database: "test_app_test#{System.get_env("MIX_TEST_PARTITION")}",
-  hostname: "localhost",
+  hostname: "db",
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,
