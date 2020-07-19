@@ -76,4 +76,24 @@ defmodule TestApp.Football.Player.RushingStatistic do
     |> List.first()
   end
 
+  def map_to_ecto_keys(incoming_map) do
+    conversion_map = %{"1st" => :first_downs,
+      "1st%" => :first_downs_pct,
+      "20+" => :twenty_yards_plus,
+      "40+" => :fourty_yards_plus,
+      "Att" => :attempts,
+      "Att/G" => :attempts_per_game,
+      "Avg" => :average_yards,
+      "FUM" => :fumbles,
+      "Lng" => :longest_rush,
+      "Player" => :player_name,
+      "Pos" => :player_position,
+      "TD" => :touchdowns,
+      "Team" => :team,
+      "Yds" => :total_yards,
+      "Yds/G" => :yards_per_game
+    }
+    incoming_map
+    |> Map.new(fn {k,v} -> {Map.get(conversion_map, k), v} end)
+  end
 end
