@@ -26,14 +26,18 @@ defmodule TestAppWeb.RushingStatisticsLive do
 
     <table>
       <thead>
-        <th>
+        <th phx-click="order-by" phx-value-order_by="player_name">
           Name
+        </th>
+        <th phx-click="order-by" phx-value-order_by="team">
+          Team
         </th>
       </thead>
       <tbody>
         <%= for stat <- statistics(assigns) do %>
           <tr>
             <td><%= stat.player_name %></td>
+            <td><%= stat.team %></td>
           </tr>
         <% end %>
       </tbody>
@@ -54,6 +58,10 @@ defmodule TestAppWeb.RushingStatisticsLive do
 
   def handle_event("select-page", %{"page" => page}, socket) do
     {:noreply, assign(socket, current_page: String.to_integer(page))}
+  end
+
+  def handle_event("order-by", %{"order_by" => order_by}, socket) do
+    {:noreply, assign(socket, order_by: String.to_atom(order_by))}
   end
 
   defp statistics(%{statistics: nil, order_by: order_by, current_page: current_page, page_size: page_size}) do
