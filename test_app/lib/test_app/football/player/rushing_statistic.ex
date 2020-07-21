@@ -11,7 +11,7 @@ defmodule TestApp.Football.Player.RushingStatistic do
     field :first_downs_pct, :float
     field :fourty_yards_plus, :integer
     field :fumbles, :integer
-    field :longest_rush, :string
+    field :longest_rush, :integer
     field :player_name, :string
     field :player_position, :string
     field :team, :string
