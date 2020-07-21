@@ -12,6 +12,8 @@ services:
     tty: true
     depends_on:
       - db
+    environment:
+      WAIT_HOSTS: db:5432
 
   db:
     image: postgres
