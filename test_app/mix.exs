@@ -10,7 +10,8 @@ defmodule TestApp.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      dialyzer: [plt_add_apps: [:mix]]
     ]
   end
 
@@ -44,9 +45,10 @@ defmodule TestApp.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:jaxon, git: "https://github.com/boudra/jaxon", branch: "master"},
+      {:jaxon, git: "https://github.com/stelford/jaxon", branch: "master"},
       {:plug_cowboy, "~> 2.0"},
-      {:floki, ">= 0.0.0", only: :test}
+      {:floki, ">= 0.0.0", only: :test},
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
     ]
   end
 

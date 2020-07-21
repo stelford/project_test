@@ -51,8 +51,10 @@ defmodule TestApp.Football.Player.RushingStatistic do
 
   be conservative in what you do, be liberal in what you accept from others
 
+  Each line from TestApp.Football.Player.RushingStatistic.load_json(%{file: "fixtures/rushing.json"})
+  will end up being passed into insert_into_ecto, with the following structure
+
   ```
-  iex> TestApp.Football.Player.RushingStatistic.load_json(%{file: "rushing.json"})
   %{
     "1st" => 0,
     "1st%" => 0,
@@ -76,7 +78,7 @@ defmodule TestApp.Football.Player.RushingStatistic do
     file 
     |> File.stream!() 
     |> Jaxon.Stream.from_enumerable() 
-    |> Jaxon.Stream.query([:root, "stats", :all]) 
+    |> Jaxon.Stream.query(Jaxon.Path.parse!("$.stats[*]"))
     |> Enum.each(fn x -> insert_into_ecto(file, x) end)
   end
 
@@ -85,7 +87,13 @@ defmodule TestApp.Football.Player.RushingStatistic do
     demunge the data, but it's probably "saner" to jst log invalid input/json elements
     into an import_error table. There is an almost infinite ways that someone can
     mess up a json data, but, usually, it's not the entire file that is messed. 
+
+    I also totally understand that a map() in a typespec isn't wholly useful, but I 
+    was trying to show typespec's and usage in a shortened time. Obviously, time
+    permitting, I would use a custom type of the %RushingStatistic and declare all
+    the expected keys with types
   """
+  @spec insert_into_ecto(String.t(), map()) :: {:ok, map()}
   def insert_into_ecto(file_or_uri, enum_item) do
     with {:ok, map_converted} <- map_to_ecto_keys(enum_item),
          {:ok, record} <- TestApp.Football.Player.create_rushing_statistic(map_converted)
