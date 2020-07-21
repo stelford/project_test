@@ -1,5 +1,6 @@
 defmodule TestAppWeb.RushingStatisticsLive do
   use Phoenix.LiveView, layout: {TestAppWeb.LayoutView, "live.html"}
+  import Phoenix.HTML.Link, only: [button: 2]
 
   import Ecto.Query
   alias TestApp.Football.Player.RushingStatistic, as: RushingStatistic
@@ -10,19 +11,24 @@ defmodule TestAppWeb.RushingStatisticsLive do
 
   def render(assigns) do
     ~L"""
-    <h1>LiveView is alive</h1>
     <% all_pages = number_of_pages(assigns) %>
 
-    <form phx-change="select-page">
-      Page
-      <select name="page">
-        <%= for page <- all_pages do %>
-          <option value="<%= page %>" <%= page == assigns.current_page && "selected" || "" %>>
-            <%= page %>
-          </option>
-        <% end %>
-      </select>
-    </form>
+    <div class="float-left">
+      <form phx-change="select-page">
+        Page
+        <select name="page">
+          <%= for page <- all_pages do %>
+            <option value="<%= page %>" <%= page == assigns.current_page && "selected" || "" %>>
+              <%= page %>
+            </option>
+          <% end %>
+        </select>
+      </form>
+    </div>
+
+    <div class="float-right">
+      <%= button("Export to CSV", to: ("/report/rushing_statistic?filter_player_name=" <> assigns.filter_player_name <> "&order_by=" <> Atom.to_string(assigns.order_by) <> "&asc_or_desc=" <> Atom.to_string(assigns.asc_or_desc)), data: [hello: "there"], target: "_blank", method: :post) %>
+    </div>
 
     <table>
       <thead>
