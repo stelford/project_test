@@ -96,7 +96,8 @@ defmodule TestApp.Football.Player.RushingStatistic do
   @spec insert_into_ecto(String.t(), map()) :: {:ok, map()}
   def insert_into_ecto(file_or_uri, enum_item) do
     with {:ok, map_converted} <- map_to_ecto_keys(enum_item),
-         {:ok, record} <- TestApp.Football.Player.create_rushing_statistic(map_converted)
+         {:ok, map_with_data_fixes_applied} <- known_data_fixes(map_converted),
+         {:ok, record} <- TestApp.Football.Player.create_rushing_statistic(map_with_data_fixes_applied)
     do
       {:ok, record}
     else
@@ -131,6 +132,46 @@ defmodule TestApp.Football.Player.RushingStatistic do
     }
     resulting_map = Map.new(incoming_map, fn {k,v} -> {Map.get(conversion_map, k), v} end)
     {:ok, resulting_map}
+  end
+
+  def known_data_fixes(map_converted) do
+    # Longest Rush has a T at the end of it's number/digits, I assume that this is to denote T(ouchdown)
+    # we also need to ensure that the longest_rush is a number (85T is not an integer ;), and for sanity
+    # reasons, we also make sure that "1,234" in total_yards becomes 1234
+    IO.inspect(map_converted)
+    fixed_map = map_converted 
+                |> fix_longest_rush_has_letters()
+                |> fix_total_yards_has_commas()
+
+    IO.inspect(fixed_map)
+    {:ok, fixed_map}
+  end
+
+  def fix_longest_rush_has_letters(incoming_map) do
+    if Map.has_key?(incoming_map, :longest_rush) do
+      ensure_number_is_proper_integer(incoming_map, :longest_rush, Map.get(incoming_map, :longest_rush))
+    else
+      incoming_map
+    end
+  end
+
+  def fix_total_yards_has_commas(incoming_map) do
+    if Map.has_key?(incoming_map, :total_yards) do
+      ensure_number_is_proper_integer(incoming_map, :total_yards, Map.get(incoming_map, :total_yards))
+    else
+      incoming_map
+    end
+  end
+
+  # This is mostly here to demonstrate guards. Often I find myself missing Python's "isinstance"
+  # in which case, I then know that I should be refactoring the code to use guards and multiple functions
+  def ensure_number_is_proper_integer(incoming_map, key, value) when is_binary(value) do
+    fixed_string = String.replace(value, ~r"[A-z /,]", "")
+    Map.replace!(incoming_map, key, String.to_integer(fixed_string))
+  end
+
+  def ensure_number_is_proper_integer(incoming_map, _key, value) when is_integer(value) do
+    incoming_map
   end
 
   # shamelessly grabbed from https://elixirforum.com/t/collecting-and-formatting-changeset-errors/20191
