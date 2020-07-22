@@ -24,6 +24,11 @@ pre{padding: 1em;}
   position: relative;
   width: 100%
 }
+.container-full-width{
+  margin: 0 auto;
+  position: relative;
+  width: 100%
+}
 select {
   width: auto;
 }
@@ -98,4 +103,8 @@ header nav a {
     flex-basis: 527px;
     margin: 2rem 1rem;
   }
+}
+
+.column-active {
+  background: lightgreen;
 }
