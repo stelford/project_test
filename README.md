@@ -17,17 +17,17 @@ Probably, I never said I was a designer :)
 
 ## What does this show ?
 
-*) importing 'potentially dodgy' json file of players stats
-*) logging errors into an import error table and item which was bad
-*) liveview for pagination, filtering on player name
-*) sorting can be toggled ascending/descending
-*) csv export
-*) ecto for database
-*) docker and docker-compose setup for easy installation
-*) integration tests for happy/unhappy path of importing json
-*) typespec support (example is inside lib/test_app/football/player/rushing_statistic.ex)
-*) mix task ('mix load_data' which lives inside lib/mix/tasks/load_data.ex)
-*) erlang interop (:calendar and :io_lib inside lib/test_app_web/controllers/report_controller.ex)
+* importing 'potentially dodgy' json file of players stats
+* logging errors into an import error table and item which was bad
+* liveview for pagination, filtering on player name
+* sorting can be toggled ascending/descending
+* csv export
+* ecto for database
+* docker and docker-compose setup for easy installation
+* integration tests for happy/unhappy path of importing json
+* typespec support (example is inside lib/test_app/football/player/rushing_statistic.ex)
+* mix task ('mix load_data' which lives inside lib/mix/tasks/load_data.ex)
+* erlang interop (:calendar and :io_lib inside lib/test_app_web/controllers/report_controller.ex)
 
 and probably a few other things I can't remember off the top of my head
 
