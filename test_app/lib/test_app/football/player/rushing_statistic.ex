@@ -138,12 +138,10 @@ defmodule TestApp.Football.Player.RushingStatistic do
     # Longest Rush has a T at the end of it's number/digits, I assume that this is to denote T(ouchdown)
     # we also need to ensure that the longest_rush is a number (85T is not an integer ;), and for sanity
     # reasons, we also make sure that "1,234" in total_yards becomes 1234
-    IO.inspect(map_converted)
     fixed_map = map_converted 
                 |> fix_longest_rush_has_letters()
                 |> fix_total_yards_has_commas()
 
-    IO.inspect(fixed_map)
     {:ok, fixed_map}
   end
 

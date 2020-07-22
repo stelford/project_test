@@ -120,7 +120,6 @@ defmodule TestAppWeb.RushingStatisticsLive do
   end
 
   def handle_event("order-by", %{"asc_or_desc" => "asc", "order_by" => order_by}, socket) do
-    IO.inspect(socket)
     {:noreply, assign(socket, %{order_by: String.to_atom(order_by), asc_or_desc: :desc})}
   end
 
