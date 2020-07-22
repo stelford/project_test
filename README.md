@@ -18,7 +18,7 @@ Probably, I never said I was a designer :)
 ## What does this show ?
 
 * importing 'potentially dodgy' json file of players stats
-* logging errors into an import error table and item which was bad
+* logging errors during import into an "import error" table, along with the item which was bad
 * liveview for pagination, filtering on player name
 * sorting can be toggled ascending/descending
 * csv export
