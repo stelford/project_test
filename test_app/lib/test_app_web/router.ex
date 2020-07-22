@@ -18,6 +18,7 @@ defmodule TestAppWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    post "/report/rushing_statistic", ReportController, :rushing_statistic_to_csv
     live "/mylive", RushingStatisticsLive
     resources "/rushing_statistic", RushingStatisticController
   end
