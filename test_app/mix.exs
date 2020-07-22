@@ -48,7 +48,8 @@ defmodule TestApp.MixProject do
       {:jaxon, git: "https://github.com/stelford/jaxon", branch: "master"},
       {:plug_cowboy, "~> 2.0"},
       {:floki, ">= 0.0.0", only: :test},
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:csv, "~> 2.3"}
     ]
   end
 
