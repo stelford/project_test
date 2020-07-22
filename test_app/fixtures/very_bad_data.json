@@ -1,0 +1,19 @@
+{"stats": [
+  {
+    "Player":"Joe Banyard",
+    "Team":"JAX",
+    "Pos":"RB",
+    "Att":2,
+    "Att/G":2,
+    "Yds":"1,234",
+    "Avg":3.5,
+    "Yds/G":"12347",
+    "TD":0,
+    "Lng":"85T",
+    "1st":0,
+    "1st%":0,
+    "20+":0,
+    "40+":0,
+    "FUM":"hahaha"
+  }
+]}
