@@ -6,7 +6,7 @@ defmodule TestAppWeb.RushingStatisticsLive do
   alias TestApp.Football.Player.RushingStatistic, as: RushingStatistic
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, order_by: :player_name, asc_or_desc: :asc, current_page: 1, page_size: 25)}
+    {:ok, assign(socket, order_by: :player_name, asc_or_desc: :asc, current_page: 1, page_size: 25, filter_player_name: "")}
   end
 
   def render(assigns) do
@@ -34,6 +34,7 @@ defmodule TestAppWeb.RushingStatisticsLive do
       <thead>
         <th phx-click="order-by" phx-value-order_by="player_name" phx-value-asc_or_desc="<%= assigns.asc_or_desc %>" class="<%= if assigns.order_by == :player_name do 'column-active'; else ''; end %>">
           Name <%= if assigns.order_by == :player_name do assigns.asc_or_desc; else ''; end %>
+          <input id="filter_names" phx-keyup="filter-by-player_name" phx-throttle="500" value="<%= assigns.filter_player_name %>" />
         </th>
         <th phx-click="order-by" phx-value-order_by="team" phx-value-asc_or_desc="<%= assigns.asc_or_desc %>" class="<%= if assigns.order_by == :team do 'column-active'; else ''; end %>">
           Team <%= if assigns.order_by == :team do assigns.asc_or_desc; else ''; end %>
@@ -127,8 +128,13 @@ defmodule TestAppWeb.RushingStatisticsLive do
     {:noreply, assign(socket, %{order_by: String.to_atom(order_by), asc_or_desc: :asc})}
   end
 
-  defp statistics(%{order_by: order_by, asc_or_desc: :asc, current_page: current_page, page_size: page_size}) do
+  def handle_event("filter-by-player_name", %{"value" => filter_value}, socket) do
+    {:noreply, assign(socket, %{filter_player_name: filter_value})}
+  end
+
+  defp statistics(%{order_by: order_by, asc_or_desc: :asc, current_page: current_page, page_size: page_size, filter_player_name: filter_player_name}) do
     from(a in RushingStatistic,
+      where: ilike(a.player_name, ^(filter_player_name <> "%")),
       order_by: [asc: ^order_by],
       offset: ^((current_page-1)*page_size),
       limit: ^page_size
@@ -136,8 +142,9 @@ defmodule TestAppWeb.RushingStatisticsLive do
     |> TestApp.Repo.all()
   end
 
-  defp statistics(%{order_by: order_by, asc_or_desc: :desc, current_page: current_page, page_size: page_size}) do
+  defp statistics(%{order_by: order_by, asc_or_desc: :desc, current_page: current_page, page_size: page_size, filter_player_name: filter_player_name}) do
     from(a in RushingStatistic,
+      where: ilike(a.player_name, ^(filter_player_name <> "%")),
       order_by: [desc: ^order_by],
       offset: ^((current_page-1)*page_size),
       limit: ^page_size
@@ -145,8 +152,10 @@ defmodule TestAppWeb.RushingStatisticsLive do
     |> TestApp.Repo.all()
   end
 
-  defp number_of_pages(%{page_size: page_size}) do
-    count_result = from(a in RushingStatistic, select: count(a.id))
+  defp number_of_pages(%{page_size: page_size, filter_player_name: filter_player_name}) do
+    count_result = from(a in RushingStatistic, 
+                        select: count(a.id),
+                        where: ilike(a.player_name, ^(filter_player_name <> "%")))
                    |> TestApp.Repo.one()
     count_result = trunc(Float.ceil(count_result / page_size))
     Enum.to_list(1..count_result)
